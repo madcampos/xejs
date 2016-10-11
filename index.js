@@ -37,7 +37,11 @@ module.exports = function(file, renderingOptions, args, done) {
         closeTag: renderingOptions.closeTag || "}}",
         ejsEscape: renderingOptions.ejsEscape===false ? false:true,
         tokens: tokens,
-        args: args || {}
+        args: args || {},
+        commentTags: {
+            open: "{{#",
+            close: "}}"
+        }
     };
     var res = null;
     var err = null;

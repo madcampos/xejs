@@ -5,8 +5,14 @@ var defaultTokens = [
 ];
 
 function stripComments(content, commentTags) {
-    commentTags.open = commentTags.open || "{{#";
-    commentTags.close = commentTags.close || "}}";
+    if (commentTags) {
+         commentTags.open = commentTags.open || "{{#";
+        commentTags.close = commentTags.close || "}}";
+    } else {
+        commentTags = {open: "{{#", close: "}}"};
+    }
+
+    //TODO: test validity of regex!
     var commentRegex = new RegExp(commentTags.open + "[\s\S]*?" + commentTags.close, "g");
     content = content.replace(commentRegex, '');
     return content;
@@ -37,7 +43,7 @@ function replaceTags(content, tokens, options) {
         return result;
     }
 
-    content = stripComments(content, options.commentTags);
+    content = stripComments(content, options.commentTags || {open: "{{#", close: "}}"});
 
     for (var i = 0; i < tokens.length; i++) {
         var reg = generateTagRegex(tokens[i][0], options);
